@@ -27,7 +27,7 @@ public class DataItem {
     }
 
     public String getDay() {
-        return day;
+        return this.day;
     }
 
     public void setDay(String day) {
@@ -35,15 +35,7 @@ public class DataItem {
     }
 
     public String getHighlow() {
-        if(highlow == "H")
-        {
-            return "High";
-        }
-        else
-        {
-            return "Low";
-        }
-
+        return this.highlow;
     }
 
     public void setHighlow(String highlow) {

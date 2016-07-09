@@ -41,7 +41,10 @@ public class MainActivity extends AppCompatActivity
 
         readingsListView.setOnItemClickListener(this);
 
-        new ReadFeed().execute();
+        dataCollection = fileIO.readFile();
+        MainActivity.this.updateDisplay();
+
+//        new ReadFeed().execute();
     }
 
 //    class DownloadFeed extends AsyncTask<Void, Void, Void> {
@@ -57,20 +60,20 @@ public class MainActivity extends AppCompatActivity
 //            new ReadFeed().execute();
 //        }
 //    }
+//
+//    class ReadFeed extends AsyncTask<Void, Void, Void> {
+//        @Override
+//        protected Void doInBackground(Void... params) {
 
-    class ReadFeed extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            dataCollection = fileIO.readFile();
-            return null;
-        }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            // update the display for the activity
 
-        @Override
-        protected void onPostExecute(Void result) {
-            // update the display for the activity
-            MainActivity.this.updateDisplay();
-        }
-    }
+//        }
+//    }
 
     public void updateDisplay()
     {
@@ -89,8 +92,8 @@ public class MainActivity extends AppCompatActivity
                 new ArrayList<HashMap<String, String>>();
         for (DataItem item : dataItems) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("date", item.getFormattedDate());
-            map.put("title", item.getHighlow());
+            map.put("date", item.getDate() + " " + item.getDay());
+            map.put("line2", item.getHighlow() + " " + item.getTime());
             data.add(map);
         }
 //        ArrayList<HashMap<String, String>> data = new ArrayList<~>();
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
         // create the resource, from, and to variables
         int resource = R.layout.listview_item;
-        String[] from = {"date", "title"};
+        String[] from = {"date", "line2"};
         int[] to = {R.id.dateTextView, R.id.timeTextView};
 
         // create and set the adapter

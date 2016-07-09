@@ -15,6 +15,7 @@ public class DataParser extends DefaultHandler {
     private boolean dateReadFlag = false;
 
     private boolean isDate = false;
+    private boolean isDay = false;
     private boolean isTime = false;
     private boolean isFeet = false;
     private boolean isCentimeters = false;
@@ -40,6 +41,10 @@ public class DataParser extends DefaultHandler {
         }
         else if (qName.equals("date")) {
             isDate = true;
+            return;
+        }
+        else if (qName.equals("day")) {
+            isDay = true;
             return;
         }
         else if (qName.equals("time")) {
@@ -78,6 +83,35 @@ public class DataParser extends DefaultHandler {
             dataItem.setDate(s);
             isDate = false;
         }
+        if (isDay) {
+            String dayName = null;
+            switch(s)
+            {
+                case "Sun":
+                    dayName = "Sunday";
+                    break;
+                case "Mon":
+                    dayName = "Monday";
+                    break;
+                case "Tue":
+                    dayName = "Tuesday";
+                    break;
+                case "Wed":
+                    dayName = "Wednesday";
+                    break;
+                case "Thu":
+                    dayName = "Thursday";
+                    break;
+                case "Fri":
+                    dayName = "Friday";
+                    break;
+                case "Sat":
+                    dayName = "Saturday";
+                    break;
+            }
+            dataItem.setDay(dayName);
+            isDay = false;
+        }
         else if (isTime) {
             dataItem.setTime(s);
             isTime = false;
@@ -91,7 +125,13 @@ public class DataParser extends DefaultHandler {
             isCentimeters = false;
         }
         else if (isHighLow){
-            dataItem.setHighlow(s);
+            String highLow = null;
+            char c = s.charAt(0);
+            if(c == 'H')
+                highLow = "High";
+            else
+                highLow = "Low";
+            dataItem.setHighlow(highLow);
             isHighLow = false;
         }
     }
